@@ -1,0 +1,10 @@
+{
+  "name": "Remix BRICS Public Infrastructure Governance Platform",
+  "description": "AI-powered Digital Public Infrastructure bridge connecting citizens and BRICS national governments with multilingual voice reporting, real-time hotspot mapping, priority ranking, and AI cost estimation.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
