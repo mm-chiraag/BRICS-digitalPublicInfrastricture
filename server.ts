@@ -6,11 +6,12 @@ import { Complaint, CostEstimate, SeverityLevel, SMSNotification, GovernmentDepa
 import { INITIAL_NATIONAL_COMPLAINTS } from './src/data/initialComplaints';
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json());
 
-// In-memory persistent state for National Infrastructure Command Center
+// Prototype-only state. Vercel Functions can restart or run multiple instances,
+// so this data is not durable across deployments or guaranteed across requests.
 let complaints: Complaint[] = JSON.parse(JSON.stringify(INITIAL_NATIONAL_COMPLAINTS));
 let smsNotifications: SMSNotification[] = [];
 
@@ -465,17 +466,24 @@ async function startServer() {
       appType: 'spa',
     });
     app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), 'dist');
+  } else if (process.env.VERCEL !== '1') {
+    const distPath = path.join(process.cwd(), 'public');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`National Command Center Server running on http://localhost:${PORT}`);
-  });
+  // Vercel imports the Express app as a Function. Only bind a port for local use.
+  if (process.env.VERCEL !== '1') {
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`National Command Center Server running on http://localhost:${PORT}`);
+    });
+  }
 }
 
-startServer();
+export default app;
+
+if (process.env.VERCEL !== '1') {
+  startServer();
+}
