@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import { Complaint, SeverityLevel } from '../types';
+import 'leaflet/dist/leaflet.css';
+import type { Complaint, SeverityLevel } from '../types';
 import { AlertTriangle, MapPin, CheckCircle2, DollarSign, Users, Clock } from 'lucide-react';
 
 interface MapComponentProps {
@@ -33,10 +34,10 @@ export const MapComponent: React.FC<MapComponentProps> = ({
         zoomControl: true,
       });
 
-      // Dark theme map tiles (CartoDB Dark Matter)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
+      // Use the public OSM raster layer; the previous CARTO endpoint now
+      // returns an API-key-required placeholder instead of map tiles.
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
       }).addTo(map);
 
