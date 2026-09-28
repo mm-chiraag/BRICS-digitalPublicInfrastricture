@@ -457,7 +457,17 @@ app.post('/api/reset', (req, res) => {
   res.json({ success: true, message: 'Dataset reseeded successfully', complaints });
 });
 
-// Vite Middleware & Production Serve
+// Serve the built client in production, including when Vercel imports this app
+// as a function instead of starting the local server.
+if (process.env.NODE_ENV === 'production') {
+  const distPath = path.join(process.cwd(), 'public');
+  app.use(express.static(distPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
+// Vite Middleware for local development
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
     const { createServer: createViteServer } = await import('vite');
@@ -466,12 +476,6 @@ async function startServer() {
       appType: 'spa',
     });
     app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), 'public');
-    app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
   }
 
   // Vercel imports the Express app as a Function. Only bind a port for local use.
