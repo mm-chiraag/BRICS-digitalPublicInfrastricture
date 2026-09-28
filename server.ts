@@ -2,8 +2,8 @@ import express from 'express';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI, Type } from '@google/genai';
-import { Complaint, CostEstimate, SeverityLevel, SMSNotification, GovernmentDepartment } from './src/types';
-import { INITIAL_NATIONAL_COMPLAINTS } from './src/data/initialComplaints';
+import type { Complaint, CostEstimate, SeverityLevel, SMSNotification, GovernmentDepartment } from './src/types';
+import { INITIAL_NATIONAL_COMPLAINTS } from './src/data/initialComplaints.ts';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;

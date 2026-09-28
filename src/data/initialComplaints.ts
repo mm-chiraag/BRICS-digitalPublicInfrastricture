@@ -1,4 +1,4 @@
-import { Complaint, LanguageInfo, RegionalLanguage } from '../types';
+import type { Complaint, LanguageInfo, RegionalLanguage } from '../types';
 
 export const OFFICIAL_REGIONAL_LANGUAGES: LanguageInfo[] = [
   { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', region: 'India (North / Central)', flag: '🇮🇳', speechCode: 'hi-IN' },
