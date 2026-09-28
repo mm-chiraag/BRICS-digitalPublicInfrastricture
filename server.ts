@@ -466,7 +466,7 @@ async function startServer() {
       appType: 'spa',
     });
     app.use(vite.middlewares);
-  } else if (process.env.VERCEL !== '1') {
+  } else {
     const distPath = path.join(process.cwd(), 'public');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
