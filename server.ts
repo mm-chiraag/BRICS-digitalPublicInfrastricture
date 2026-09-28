@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI, Type } from '@google/genai';
 import type { Complaint, CostEstimate, SeverityLevel, SMSNotification, GovernmentDepartment } from './src/types';
 import { INITIAL_NATIONAL_COMPLAINTS } from './src/data/initialComplaints.ts';
@@ -461,6 +460,7 @@ app.post('/api/reset', (req, res) => {
 // Vite Middleware & Production Serve
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
